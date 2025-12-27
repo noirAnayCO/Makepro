@@ -1,0 +1,30 @@
+Screen {
+	
+	
+    }
+
+#title {
+	content-align: center middle;
+	align: center middle;
+	margin: 2 4;
+	padding: 1 2;
+	border: round red;
+	width: 75%;
+	height: auto;
+	text-wrap: nowrap; /* Add this to keep the ASCII art intact */
+	color: $accent;    /* Optional: uses your theme's accent color */
+	
+}
+
+DirectoryTree {
+	height: auto;
+	width: 25;
+	border: round $accent;
+	background: transparent;
+	margin: 2 4;
+	padding: 1 2;
+}
+
+.with-border {
+	border: heavy green;
+}
