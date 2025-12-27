@@ -1,8 +1,0 @@
-#!/private/preboot/00F9DABF46B5B7039D628730057242BDC16D37B63C0F18A7FCB343AD32B3A3EF5C5D92C5D825799220942B5B0C9D6533/dopamine-JB9DLu/procursus/var/mobile/python_projects/textual/.venv/bin/python3.9
-# -*- coding: utf-8 -*-
-import re
-import sys
-from pygments.cmdline import main
-if __name__ == '__main__':
-    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
-    sys.exit(main())
