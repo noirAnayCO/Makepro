@@ -1,8 +1,48 @@
 #!/usr/bin/env python3
+""" The sys module in Python provides access to system-specific parameters and functions that allow a program to interact closely with the Python interpreter and its runtime environment."""
+import sys
 
-from textual.app import App, ComposeResult
-from textual.containers import Horizontal
-from textual.widgets import Footer, Header, Label, Placeholder, DirectoryTree
+
+VERSION = "0.0.1" #Initialising a variable called 'VERSION' to hold the version information.
+
+if "--version" in sys.argv: #Check weather there is '--version' in 'sys.argv', If Condition is met ... pass
+    print("makepro " + VERSION) #prints the program name and the VERSION
+    sys.exit(0) #Exit the program with exit code '0'
+
+if "--help" in sys.argv: #Check weather there is '--help' in 'sys.argv', If Condition is met pass
+    print("""usage : makepro <OPTIONS>
+
+OPTIONS :
+    --version : Shows the program version
+    --help : Shows the dialogue""") #prints the help dialogue
+    sys.exit(0) #Exit the program with exit code '0'
+
+try:
+	from textual.app import App, ComposeResult
+	from textual.containers import Horizontal
+	from textual.widgets import Footer, Header, Label, DirectoryTree
+
+
+except ModuleNotFoundError: #If ModuleNotFoundError then ... pass
+    print("""[ERROR] A required Python module was not found: '<module_name>'
+
+          This tool requires the '<package_name>' package to be installed.
+
+          Please try the following steps to resolve this issue:
+          *   **Verify installation:** Ensure the package is installed in your current environment using `pip list`.
+          *   **Install the package:** Run the following command to install the missing package:
+              `pip install <package_name>`
+              *   **Check environment:** If you are using a virtual environment, make sure it is activated and you are using the correct Python interpreter for installation and execution.
+              *   **Double-check spelling:** Python is case-sensitive. Verify the module name is spelled correctly.
+
+              If the problem persists, please consult the tool's documentation or report an issue on the project's issue tracker.""") #Print the dialogue
+    sys.exit(1) #Exit with exit code '1', Indicating 'Error'
+
+except ImportError as e: #If ImportError, pass
+	print(f"[ERROR] An import error occurred: {e}") #prints the error dialogue
+	sys.exit(1) #Exit the program with exit code '0'
+
+
 BANNER_ART =  r"""_      ____  _  __ _____ ____  ____  ____ 
 / \__/|/  _ \/ |/ //  __//  __\/  __\/  _ \
 | |\/||| / \||   / |  \  |  \/||  \/|| / \|
@@ -13,31 +53,20 @@ BANNER_ART =  r"""_      ____  _  __ _____ ____  ____  ____
 
       
 
-class Box(Placeholder):
-	CSS_PATH = "makepro.css"
 class Makepro(App):
 
-	BINDINGS=[("d", "toggle_dark_mode", "Toggle Dark Mode")]
 	CSS_PATH = "makepro.css"
 	def compose(self) -> ComposeResult:
 		yield Header(show_clock=True)
 		yield Footer()
-		dt=DirectoryTree("./")
-		lbl =Label(BANNER_ART, id="title", markup=False)
+		fileexplorer=DirectoryTree("./")
+		title =Label(BANNER_ART, id="title", markup=False)
 		dt.border_title = "File Explorer"
 		with Horizontal():
-			yield dt
-			yield lbl
+			yield fileexplorer
+			yield title
 	
 
-
-
-
-
-	def action_toggle_dark_mode(self) -> None:
-		self.theme = (
-			"textual-dark" if self.theme == "textual-light" else "textual-light"
-		)
 
 
 if __name__ == "__main__":
