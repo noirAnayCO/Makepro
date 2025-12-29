@@ -3,44 +3,55 @@
 import sys
 
 
-VERSION = "0.0.1" #Initialising a variable called 'VERSION' to hold the version information.
+VERSION = "0.0.1"
 
-if "--version" in sys.argv: #Check weather there is '--version' in 'sys.argv', If Condition is met ... pass
-    print("makepro " + VERSION) #prints the program name and the VERSION
-    sys.exit(0) #Exit the program with exit code '0'
+if "--version" in sys.argv:
+	print("makepro " + VERSION)
+	sys.exit(0)
 
-if "--help" in sys.argv: #Check weather there is '--help' in 'sys.argv', If Condition is met pass
-    print("""usage : makepro <OPTIONS>
+if "--help" in sys.argv:
+	print(f"""usage : makepro <options>
 
 OPTIONS :
-    --version : Shows the program version
-    --help : Shows the dialogue""") #prints the help dialogue
-    sys.exit(0) #Exit the program with exit code '0'
+	--version : Shows the program version
+	--help : Shows the dialogue""")
+	sys.exit(0)
+
 
 try:
 	from textual.app import App, ComposeResult
-	from textual.containers import Horizontal
-	from textual.widgets import Footer, Header, Label, DirectoryTree
+	from textual.containers import Horizontal, Vertical
+	from textual.widgets import Footer, Header, Label, DirectoryTree, Button
 
 
-except ModuleNotFoundError: #If ModuleNotFoundError then ... pass
-    print("""[ERROR] A required Python module was not found: '<module_name>'
+except ModuleNotFoundError as e:
+	print(f"""\033[31m[ERROR] A required Python module was not found: '{e}'
 
-          This tool requires the '<package_name>' package to be installed.
+		This tool requires the '{e}' package to be installed.
 
-          Please try the following steps to resolve this issue:
-          *   **Verify installation:** Ensure the package is installed in your current environment using `pip list`.
-          *   **Install the package:** Run the following command to install the missing package:
-              `pip install <package_name>`
-              *   **Check environment:** If you are using a virtual environment, make sure it is activated and you are using the correct Python interpreter for installation and execution.
-              *   **Double-check spelling:** Python is case-sensitive. Verify the module name is spelled correctly.
+		Please try the following steps to resolve this issue:
+		*   **Verify installation:** Ensure the package is installed in your current environment using `pip list`.
+		*   **Install the package:** Run the following command to install the missing package:
+			`pip install {e}`
+			*   **Check environment:** If you are using a virtual environment, make sure it is activated and you are using the correct Python interpreter for installation and execution.
+			*   **Double-check spelling:** Python is case-sensitive. Verify the module name is spelled correctly.
 
-              If the problem persists, please consult the tool's documentation or report an issue on the project's issue tracker.""") #Print the dialogue
-    sys.exit(1) #Exit with exit code '1', Indicating 'Error'
+			If the problem persists, please consult the tool's documentation or report an issue on the project's issue tracker.\033[0m""")
+	sys.exit(1)
 
-except ImportError as e: #If ImportError, pass
-	print(f"[ERROR] An import error occurred: {e}") #prints the error dialogue
-	sys.exit(1) #Exit the program with exit code '0'
+except ImportError as e:
+	print(f"""\033[31m[ERROR]\033[0m An import error occurred: {e}
+
+    Please try the following steps to resolve this issue:
+
+    * **Verify installation:** Ensure the package installed in your current environment using 'pip list'.
+
+    * **Install the package:** If you are using a virtual environent, make sure it is activated and you are using the correct python intrepreter for installation and execution.
+
+    If the problem persists, please consult the tool's documentation or report an issue on the project's issue tracker.
+
+       """)
+	sys.exit(1)
 
 
 BANNER_ART =  r"""_      ____  _  __ _____ ____  ____  ____ 
@@ -49,23 +60,42 @@ BANNER_ART =  r"""_      ____  _  __ _____ ____  ____  ____
 | |  ||| |-|||   \ |  /_ |  __/|    /| \_/|
 \_/  \|\_/ \|\_|\_\\____\\_/   \_/\_\\____/ 
 """
-                                           
 
-      
 
 class Makepro(App):
 
 	CSS_PATH = "makepro.css"
+
 	def compose(self) -> ComposeResult:
 		yield Header(show_clock=True)
 		yield Footer()
-		fileexplorer=DirectoryTree("./")
-		title =Label(BANNER_ART, id="title", markup=False)
-		dt.border_title = "File Explorer"
+		fileexplorer = DirectoryTree("/")
+		title = Label(
+                BANNER_ART if self.app.size.width >= 30 else "Makepro",
+                id="title",
+                markup=False)
+		newfile = Button("New File", variant="primary", classes="welcome_buttons")
+		open = Button("Open File", variant="primary", classes="welcome_buttons")
+		setting = Button("Settings", variant="primary", classes="welcome_buttons")
+		donate = Button("Donate Us", variant="primary", classes="welcome_buttons")
+		fileexplorer.border_title = "File Explorer"
+		title.border_subtitle = f"v{VERSION} - Made by noirAnayCO"
+		
 		with Horizontal():
 			yield fileexplorer
-			yield title
-	
+			
+			with Vertical(classes="right-pane"):
+				yield title
+				
+				with Horizontal(classes="button-row"):
+					with Vertical(id="main-buttons"):
+						yield newfile
+						yield open
+
+					with Vertical(classes="button-row"):
+						yield donate
+						yield setting
+					
 
 
 
