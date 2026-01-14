@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-""" The sys module in Python provides access to system-specific parameters and functions that allow a program to interact closely with the Python interpreter and its runtime environment."""
+
+
 import sys
-from utils.textstyle import TextStyle
+
 
 VERSION = "0.0.1"
+
 
 if "--version" in sys.argv:
 	print("makepro " + VERSION)
@@ -25,11 +27,11 @@ try:
 
 
 except ModuleNotFoundError as e:
-	print(f"""{TextStyle.bred('[ERROR]')} A {TextStyle.yellow('required Python module was not found')}: {TextStyle.cyan(e.name)}
+	print(f"""[ERROR] A required Python module was not found : {e.name}
+	
+This tool requires the + {e.name} +  package to be installed.
 
-                {TextStyle.yellow('This tool requires the + {e.name} +  package to be installed.')}
-
-                {TextStyle.blue('Please try the following steps to resolve this issue:')}
+                Please try the following steps to resolve this issue:
 		*   **Verify installation:** Ensure the package is installed in your current environment using `pip list`.
 		*   **Install the package:** Run the following command to install the missing package:
 			`pip install {e.name}`
@@ -42,9 +44,9 @@ except ModuleNotFoundError as e:
 
 
 except ImportError as e:
-	print(f"""{TextStyle.bred('[ERROR]')} An {TextStyle.yellow('import error occurred')}: {e}
+	print(f"""[ERROR] An import error occurred: {e}
 
-    {TextStyle.blue('Please try the following steps to resolve this issue:')}
+    Please try the following steps to resolve this issue:
 
     * **Verify installation:** Ensure the package installed in your current environment using 'pip list'.
 
@@ -73,7 +75,7 @@ class Makepro(App):
 		yield Footer()
 		fileexplorer = DirectoryTree("/")
 		title = Label(
-                BANNER_ART if self.app.size.width >= 30 else "Makepro",
+                BANNER_ART if self.app.size.width >= 100 else "Makepro",
                 id="title",
                 markup=False)
 		newfile = Button("New File", variant="primary", classes="welcome_buttons")
