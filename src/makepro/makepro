@@ -68,7 +68,7 @@ BANNER_ART =  r"""_      ____  _  __ _____ ____  ____  ____
 
 class Makepro(App):
 
-	CSS_PATH = "makepro.css"
+	CSS_PATH = "makepro.tcss"
 
 	def compose(self) -> ComposeResult:
 		yield Header(show_clock=True)
