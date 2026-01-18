@@ -78,10 +78,10 @@ class Makepro(App):
                 BANNER_ART if self.app.size.width >= 100 else "Makepro",
                 id="title",
                 markup=False)
-		newfile = Button("New File", variant="primary", classes="welcome_buttons")
-		open = Button("Open File", variant="primary", classes="welcome_buttons")
-		setting = Button("Settings", variant="primary", classes="welcome_buttons")
-		donate = Button("Donate Us", variant="primary", classes="welcome_buttons")
+		newfile_btn = Button("New File", variant="primary", classes="welcome_buttons")
+		open_btn = Button("Open File", variant="primary", classes="welcome_buttons")
+		setting_btn = Button("Settings", variant="primary", classes="welcome_buttons")
+		donate_btn = Button("Donate Us", variant="primary", classes="welcome_buttons")
 		fileexplorer.border_title = "File Explorer"
 		title.border_subtitle = f"v{VERSION} - Made by noirAnayCO"
 		
