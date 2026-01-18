@@ -88,7 +88,7 @@ class Makepro(App):
 		with Horizontal():
 			yield fileexplorer
 			
-			with Vertical(classes="right-pane"):
+			with Vertical(id="right-pane"):
 				yield title
 				
 				with Horizontal(classes="button-row"):
