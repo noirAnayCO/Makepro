@@ -95,12 +95,12 @@ class Makepro(App):
 				
 				with Horizontal(classes="button-row"):
 					with Vertical(id="main-buttons"):
-						yield newfile
-						yield open
+						yield newfile_btn
+						yield open_btn
 
 					with Vertical(classes="button-row"):
-						yield donate
-						yield setting
+						yield donate_btn
+						yield setting_btn
 					
 
 
