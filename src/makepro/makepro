@@ -2,7 +2,7 @@
 
 
 import sys
-
+import os
 
 VERSION = "0.0.1"
 
@@ -71,9 +71,11 @@ class Makepro(App):
 	CSS_PATH = "makepro.tcss"
 
 	def compose(self) -> ComposeResult:
+		
 		yield Header(show_clock=True)
 		yield Footer()
-		fileexplorer = DirectoryTree("/")
+		
+		fileexplorer = DirectoryTree(os.getcwd())
 		title = Label(
                 BANNER_ART if self.app.size.width >= 100 else "Makepro",
                 id="title",
