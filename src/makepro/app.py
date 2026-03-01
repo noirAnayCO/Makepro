@@ -45,8 +45,15 @@ def setup_logging(debug: bool) -> None:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    """ Build the parser - argparse.ArgumentParser for parsing the arguments"""
+    """ Build the parser and return argparse.ArgumentParser/parser
     
+        Arguments:
+            file -         file to open on startup
+            --version -    Show version and exit
+            --readonly -   Open file in read-only mode (UI will lock editing)
+            debug -        Enable debug logging and show full tracebacks on crash
+            config -       Path to a config file (optional)
+    """
     parser = argparse.ArgumentParser(
         prog="makepro",
         description="Makepro — lightweight terminal IDE",
@@ -66,18 +73,21 @@ def build_parser() -> argparse.ArgumentParser:
         help="Show version and exit",
     )
 
+    #read-only
     parser.add_argument(
         "--readonly",
         action="store_true",
         help="Open file in read-only mode (UI will lock editing)",
     )
 
+    #debug
     parser.add_argument(
         "--debug",
         action="store_true",
         help="Enable debug logging and show full tracebacks on crash",
     )
 
+    #config
     parser.add_argument(
         "--config",
         type=str,
@@ -107,10 +117,10 @@ def validate_file(path: Optional[str]) -> Optional[Path]:
     p = Path(path)
 
     if not p.exists():
-        raise FileNotFoundError(f"File does not exist: {path}")
+        raise FileNotFoundError(f"fatal: File does not exist: {path}")
 
     if not p.is_file():
-        raise ValueError(f"Not a file: {path}")
+        raise ValueError(f"fatal: Not a file: {path}")
 
     return p.resolve()
 
