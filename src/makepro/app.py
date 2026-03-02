@@ -22,6 +22,7 @@ import argparse
 import logging
 import sys
 import traceback
+from .filemanager import *
 from pathlib import Path
 from typing import Optional
 
@@ -99,31 +100,6 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-# ----------------------------------------------------------------------
-# Validation
-# ----------------------------------------------------------------------
-
-def validate_file(path: Optional[str]) -> Optional[Path]:
-    """
-    Validate the given path string and return a resolved Path, or None.
-
-    Raises:
-        FileNotFoundError  — path given but does not exist
-        ValueError         — path exists but is not a regular file
-    """
-    if path is None:
-        return None
-
-    p = Path(path)
-
-    if not p.exists():
-        raise FileNotFoundError(f"fatal: File does not exist: {path}")
-
-    if not p.is_file():
-        raise ValueError(f"fatal: Not a file: {path}")
-
-    return p.resolve()
-
 
 # ----------------------------------------------------------------------
 # Entry point
@@ -151,7 +127,7 @@ def main() -> int:
     log.debug("Args: %s", args)
 
     try:
-        file_path = validate_file(args.file)
+        file_path = validate_readable(args.file)
         config_path = Path(args.config).resolve() if args.config else None
 
         # Delayed import — keeps CLI-only operations lightweight
