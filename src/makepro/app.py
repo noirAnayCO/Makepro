@@ -145,7 +145,7 @@ def main() -> int:
     
     except ModuleNotFoundError:
         print(f"[makepro] Module Not Found: {e.name}, Try installing it with "pip install {e.name}")
-        return 1
+        return 2
     
 
     except FileNotFoundError as e:
