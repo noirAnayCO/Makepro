@@ -13,6 +13,8 @@ This module raises standard Python exceptions for the caller to handle:
 - PermissionError
 - ValueError
 - OSError (for other IO issues)
+
+NOTE : No instances shall be initialised! 
 """
 
 from __future__ import annotations
@@ -31,6 +33,7 @@ logger = logging.getLogger("makepro.file_manager")
 # Validation / helpers
 # -----------------------
 
+@staticmethod
 def validate_readable(path: str) -> Path:
     """
     Validate that the given path exists, is a file, and is readable.
@@ -55,7 +58,7 @@ def validate_readable(path: str) -> Path:
 
     return p.resolve()
 
-
+@staticmethod
 def validate_writable(path: str, create: bool = False) -> Path:
     """
     Validate that the given path is writable.
@@ -105,6 +108,7 @@ def validate_writable(path: str, create: bool = False) -> Path:
 # Read / Write operations
 # -----------------------
 
+@staticmethod
 def read_file(path: Path, encoding: str = "utf-8") -> str:
     """
     Read and return file contents as text.
@@ -130,6 +134,7 @@ def read_file(path: Path, encoding: str = "utf-8") -> str:
         raise
 
 
+@staticmethod
 def atomic_write(path: Path, content: str, encoding: str = "utf-8") -> None:
     """
     Write content to `path` atomically using a temporary file in the same directory,
@@ -185,6 +190,7 @@ def atomic_write(path: Path, content: str, encoding: str = "utf-8") -> None:
         raise
 
 
+@staticmethod
 def write_file(path: Path, content: str, *, create: bool = False, backup: bool = False, encoding: str = "utf-8") -> None:
     """
     Safely write `content` to `path`.
@@ -236,6 +242,7 @@ def write_file(path: Path, content: str, *, create: bool = False, backup: bool =
 # Convenience high-level API
 # -----------------------
 
+@staticmethod
 def open_for_read(path_str: Optional[str]) -> Optional[str]:
     """
     Convenience: given a path string or None, validate then read and return text.
@@ -248,7 +255,7 @@ def open_for_read(path_str: Optional[str]) -> Optional[str]:
     p = validate_readable(path_str)  # may raise
     return read_file(p)
 
-
+@staticmethod
 def open_for_write(path_str: str, content: str, *, create: bool = False, backup: bool = False) -> None:
     """
     Convenience wrapper: validate path for write then write content.
