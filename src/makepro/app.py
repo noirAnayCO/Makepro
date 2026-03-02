@@ -24,7 +24,6 @@ import sys
 import traceback
 from . import file_manager
 from pathlib import Path
-from typing import Optional
 
 VERSION = "0.1.0"
 
