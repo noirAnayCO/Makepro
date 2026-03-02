@@ -142,7 +142,7 @@ def main() -> int:
         log.info("Exited normally.")
         return 0
     
-    except ModuleNotFoundError:
+    except ModuleNotFoundError as e:
         print(f"[makepro] Module Not Found: {e.name}, Try installing it with "pip install {e.name}")
         return 2
     
