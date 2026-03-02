@@ -22,7 +22,7 @@ import argparse
 import logging
 import sys
 import traceback
-from .filemanager import *
+from . import filemanager
 from pathlib import Path
 from typing import Optional
 
@@ -127,7 +127,7 @@ def main() -> int:
     log.debug("Args: %s", args)
 
     try:
-        file_path = validate_readable(args.file)
+        file_path = filemanager.validate_readable(args.file)
         config_path = Path(args.config).resolve() if args.config else None
 
         # Delayed import — keeps CLI-only operations lightweight
