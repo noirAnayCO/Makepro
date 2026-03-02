@@ -33,7 +33,7 @@ logger = logging.getLogger("makepro.file_manager")
 # Validation / helpers
 # -----------------------
 
-@staticmethod
+
 def validate_readable(path: Optional[str]) -> Optional[Path]:
     """
     Validate that the given path exists, is a file, and is readable.
@@ -58,7 +58,7 @@ def validate_readable(path: Optional[str]) -> Optional[Path]:
 
     return p.resolve()
 
-@staticmethod
+
 def validate_writable(path: Optional[str], create: bool = False) -> Optional[Path]:
     """
     Validate that the given path is writable.
@@ -108,7 +108,7 @@ def validate_writable(path: Optional[str], create: bool = False) -> Optional[Pat
 # Read / Write operations
 # -----------------------
 
-@staticmethod
+
 def read_file(path: Optional[Path], encoding: str = "utf-8") -> Optional[str]:
     """
     Read and return file contents as text.
@@ -134,8 +134,8 @@ def read_file(path: Optional[Path], encoding: str = "utf-8") -> Optional[str]:
         raise
 
 
-@staticmethod
-def atomic_write(path: Optional[Path], content: Optional[str], encoding: str = "utf-8") -> None:
+
+def atomic_write(path: Path, content: str, encoding: str = "utf-8") -> None:
     """
     Write content to `path` atomically using a temporary file in the same directory,
     then rename (os.replace) into place. Ensures data is flushed and fsynced.
@@ -190,8 +190,8 @@ def atomic_write(path: Optional[Path], content: Optional[str], encoding: str = "
         raise
 
 
-@staticmethod
-def write_file(path: Optional[Path], content: str, *, create: bool = False, backup: bool = False, encoding: str = "utf-8") -> None:
+
+def write_file(path: Path, content: str, *, create: bool = False, backup: bool = False, encoding: str = "utf-8") -> None:
     """
     Safely write `content` to `path`.
 
@@ -242,7 +242,7 @@ def write_file(path: Optional[Path], content: str, *, create: bool = False, back
 # Convenience high-level API
 # -----------------------
 
-@staticmethod
+
 def open_for_read(path_str: Optional[str]) -> Optional[str]:
     """
     Convenience: given a path string or None, validate then read and return text.
@@ -255,8 +255,8 @@ def open_for_read(path_str: Optional[str]) -> Optional[str]:
     p = validate_readable(path_str)  # may raise
     return read_file(p)
 
-@staticmethod
-def open_for_write(path_str: Optional[str], content: str, *, create: bool = False, backup: bool = False) -> None:
+
+def open_for_write(path_str: str, content: str, *, create: bool = False, backup: bool = False) -> None:
     """
     Convenience wrapper: validate path for write then write content.
     Caller should catch and handle exceptions.
