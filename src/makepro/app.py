@@ -98,7 +98,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     return parser
 
-
+def isatty() -> bool:
+    """ Returns whether std.out/std.in/std.err is a tty(Text Terminal-Type) or not. """
+    return any([sys.stdin.isatty(), sys.stdout.isatty(), sys.stderr.isatty()])
 
 # ----------------------------------------------------------------------
 # Entry point
@@ -112,7 +114,10 @@ def main() -> int:
       1    — user error  (bad args, missing file)
       2    — unexpected fatal error
       130  — interrupted by user (Ctrl-C / SIGINT)
+      160  — standard stream not a tty
     """
+    
+    
     parser = build_parser()
     args = parser.parse_args()
 
@@ -124,6 +129,11 @@ def main() -> int:
     setup_logging(args.debug)
     log = logging.getLogger("makepro.app")
     log.debug("Args: %s", args)
+    
+    if not isatty():
+        print("Standard Stream is not a TTY")
+        log.error("Standard Stream is not a TTY(Text Terminal-Type)")
+        sys.exit(160)
 
     try:
         file_path = file_manager.validate_readable(args.file)
