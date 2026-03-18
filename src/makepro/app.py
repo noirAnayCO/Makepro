@@ -35,6 +35,8 @@ VERSION = "0.1.0"
 def setup_logging(debug: bool) -> None:
     """Configure the root logger. Called before any heavy work."""
     level = logging.DEBUG if debug else logging.WARNING
+    
+    # Format
     fmt = "%(asctime)s %(levelname)-8s %(name)s - %(message)s"
     logging.basicConfig(level=level, format=fmt)
 
@@ -114,7 +116,7 @@ def main() -> int:
       1    — user error  (bad args, missing file)
       2    — unexpected fatal error
       130  — interrupted by user (Ctrl-C / SIGINT)
-      160  — standard stream not a tty
+      160  — standard stream not a tty (Text-Terminal Type/Terminal)
     """
     
     
