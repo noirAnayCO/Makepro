@@ -100,7 +100,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 def isatty() -> bool:
     """ Returns whether std.out/std.in/std.err is a tty(Text Terminal-Type) or not. """
-    return any([sys.stdin.isatty(), sys.stdout.isatty(), sys.stderr.isatty()])
+    return sys.stdin.isatty() and sys.stdout.isatty()
 
 # ----------------------------------------------------------------------
 # Entry point
@@ -131,7 +131,7 @@ def main() -> int:
     log.debug("Args: %s", args)
     
     if not isatty():
-        print("Standard Stream is not a TTY")
+        print("fatal: Standard Stream is not a TTY")
         log.error("Standard Stream is not a TTY(Text Terminal-Type)")
         sys.exit(160)
 
