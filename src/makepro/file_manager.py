@@ -45,6 +45,9 @@ def validate_readable(path: Optional[str]) -> Optional[Path]:
     Returns:
         resolved Path
     """
+
+    if Path is None:
+        return None
     p = Path(path)
 
     if not p.exists():
