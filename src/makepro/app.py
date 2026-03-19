@@ -135,7 +135,7 @@ def main() -> int:
     if not isatty():
         print("fatal: Standard Stream is not a TTY")
         log.error("Standard Stream is not a TTY(Text Terminal-Type)")
-        sys.exit(160)
+        return 160
 
     try:
         file_path = file_manager.validate_readable(args.file)
