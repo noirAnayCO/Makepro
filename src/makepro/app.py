@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 Anay
+
 #!/usr/bin/env python3
 
 # src/makepro/app.py
