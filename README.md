@@ -1,131 +1,191 @@
 # Makepro
 
-![CI](https://github.com/noirAnayCO/makepro/actions/workflows/ci.yml/badge.svg)
+<div align="center">
 
-Makepro is a lightweight terminal IDE focused on clean architecture, predictable behavior, and full control over the terminal.
+```
+  __  __       _                         
+ |  \/  | __ _| | _____ _ __  _ __ ___  
+ | |\/| |/ _` | |/ / _ \ '_ \| '__/ _ \ 
+ | |  | | (_| |   <  __/ |_) | | | (_) |
+ |_|  |_|\__,_|_|\_\___| .__/|_|  \___/ 
+                        |_|              
+```
 
-The project aims to build a modular foundation for a powerful terminal-based development environment.
+A lightweight, hackable terminal IDE — built from scratch, raw terminal first.
 
-⚠️ Status: Early development.
+[![CI](https://github.com/noirAnayCO/makepro/actions/workflows/ci.yml/badge.svg)](https://github.com/noirAnayCO/makepro/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
+[![Status: Early Development](https://img.shields.io/badge/status-early%20development-orange)](#)
 
----
+</div>
+
+-----
+
+Makepro is a terminal text editor written in Python, built entirely on raw terminal I/O — no TUI framework dependencies. It is designed around clean architecture, full control over the terminal, and an explicit path toward a high-performance native C implementation.
+
+> **⚠️ Early development.** Core editing functionality is under active construction.
+
+-----
+
+## Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Architecture](#architecture)
+- [Development](#development)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [License](#license)
+
+-----
 
 ## Features
 
-Current foundations:
+- **Raw terminal renderer** — built directly on `termios`, no Textual or curses dependency
+- **Atomic file writes** — data never lost on save; temp-file + `os.replace` strategy
+- **Modular architecture** — every subsystem (`terminal`, `render`, `events`, `ui`, `core`) is independently developed and replaceable
+- **Clean CLI lifecycle** — argument parsing, logging, TTY validation, and error handling all separated from editor logic
+- **Structured logging** — configurable verbosity, debug tracebacks on demand
+- **Strict CI** — syntax checks, import validation, lint (ruff), and license header enforcement on every push
 
-- Clean CLI lifecycle
-- Structured project architecture
-- Safe filesystem utilities
-- Atomic file writing
-- Terminal raw mode groundwork
-- CI validation
+-----
 
-Editor functionality is still under development.
+## Installation
 
----
+**From source (recommended during early development):**
 
-## Quick Start
-
-Clone the repository:
-
-git clone https://github.com/YOURNAME/makepro  
+```sh
+git clone https://github.com/noirAnayCO/makepro
 cd makepro
+pip install -e .
+```
 
-Run Makepro:
+**Run without installing:**
 
+```sh
+git clone https://github.com/noirAnayCO/makepro
+cd makepro
 PYTHONPATH=src python -m makepro
+```
 
-Open a file:
+Requires Python 3.10 or later.
 
-PYTHONPATH=src python -m makepro example.py
+-----
 
----
+## Usage
 
-## CLI
+```sh
+makepro                    # Open with no file
+makepro path/to/file.py    # Open a file
+makepro --readonly file.py # Open in read-only mode
+makepro --debug file.py    # Enable debug logging + full tracebacks
+makepro --version          # Print version
+makepro --config path.toml # Use a custom config file
+```
 
-makepro [file]
+**Exit codes:**
 
-Options:
+|Code|Meaning                            |
+|----|-----------------------------------|
+|0   |Success                            |
+|1   |User error (bad args, missing file)|
+|2   |Unexpected fatal error             |
+|130 |Interrupted (Ctrl-C / SIGINT)      |
+|160 |stdin/stdout is not a TTY          |
 
---version        Show version and exit  
---readonly       Open file in read-only mode  
---debug          Enable debug logging  
---config PATH    Path to config file  
+-----
 
----
+## Architecture
 
-## Project Structure
+Makepro is structured as a set of isolated packages, each with a single defined responsibility:
 
-src/  
- └── makepro/  
-     ├── __init__.py  
-     ├── __main__.py  
-     ├── app.py  
-     ├── file_manager.py  
-     │  
-     ├── config/  
-     ├── core/  
-     ├── events/  
-     ├── render/  
-     ├── terminal/  
-     └── ui/  
+```
+src/makepro/
+├── app.py           — CLI entry point, lifecycle management
+├── file_manager.py  — filesystem abstraction (read, write, validate)
+│
+├── terminal/        — raw terminal control (termios, raw mode, I/O)
+├── render/          — rendering pipeline (diff, draw, cursor)
+├── events/          — event loop and input dispatch
+├── ui/              — UI components and layout
+├── core/            — editor engine (buffer, cursor, commands)
+└── config/          — configuration loading and defaults
+```
 
-Architecture overview:
+**Data flow:**
 
-app → CLI lifecycle  
-file_manager → filesystem abstraction  
-terminal → terminal control  
-render → rendering pipeline  
-events → event system  
-ui → UI components  
-core → editor engine  
+```
+CLI args → app.py → terminal/raw_mode → events → core (buffer) → render → terminal output
+```
 
----
+The Python implementation is the architecture experimentation layer. Once the design stabilises, a native C port is planned for performance-critical paths.
+
+-----
 
 ## Development
 
-Syntax check:
+**Syntax check:**
 
+```sh
 python -m compileall src
+```
 
-Lint:
+**Lint:**
 
+```sh
 ruff check src
+```
 
-CI automatically validates:
+**Run from source:**
 
-- syntax
-- imports
-- lint rules
-- license headers
+```sh
+PYTHONPATH=src python -m makepro
+```
 
----
+**CI checks (run automatically on push):**
+
+- Python syntax validation (`compileall`)
+- Import smoke test
+- Lint (`ruff`)
+- MIT license header enforcement (`addlicense`)
+
+-----
 
 ## Roadmap
 
-Planned systems:
+|Status|System                   |
+|------|-------------------------|
+|🔨     |Raw terminal renderer    |
+|🔨     |Event loop               |
+|⬜     |Buffer and editing engine|
+|⬜     |Syntax highlighting      |
+|⬜     |Configuration system     |
+|⬜     |Plugin interface         |
+|⬜     |LSP integration          |
+|⬜     |Native C port            |
 
-- editing engine
-- rendering engine
-- syntax highlighting
-- plugin system
-- LSP integration
-- high-performance renderer
+-----
 
----
+## Contributing
 
-## Long-Term Direction
+Makepro is early-stage and the architecture is still being defined. Contributions, issues, and design feedback are welcome.
 
-Makepro is designed to eventually evolve into a serious terminal IDE.
+1. Fork the repository
+1. Create a feature branch: `git checkout -b feat/your-feature`
+1. Ensure CI passes locally (syntax, lint, license headers)
+1. Open a pull request with a clear description
 
-A native C implementation is planned once the architecture stabilizes.
+All source files must carry the MIT license header:
 
-Python version → architecture experimentation  
-C version → high-performance implementation  
+```python
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 Anay
+```
 
----
+-----
 
 ## License
 
-MIT License
+[MIT](./LICENSE) © 2026 noirAnayCO
