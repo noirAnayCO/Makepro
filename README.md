@@ -57,20 +57,18 @@ Makepro is a terminal text editor written in Python, built entirely on raw termi
 **From source (recommended during early development):**
 
 ```sh
-git clone https://github.com/noirAnayCO/makepro
-cd makepro
+git clone https://github.com/noirAnayCO/makepro --depth=1 && cd makepro
 pip install -e .
 ```
 
 **Run without installing:**
 
 ```sh
-git clone https://github.com/noirAnayCO/makepro
-cd makepro
+git clone https://github.com/noirAnayCO/makepro --depth=1 && cd makepro
 PYTHONPATH=src python -m makepro
 ```
 
-Requires Python 3.10 or later.
+**Note: Requires Python 3.10 or later.**
 
 -----
 
