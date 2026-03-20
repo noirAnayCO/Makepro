@@ -1,0 +1,90 @@
+# ----------------------
+# Python
+# ----------------------
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ----------------------
+# Virtual environments
+# ----------------------
+
+.venv/
+venv/
+env/
+ENV/
+
+# ----------------------
+# Testing / coverage
+# ----------------------
+
+.coverage
+.coverage.*
+.cache/
+pytest_cache/
+
+# ----------------------
+# Type checkers
+# ----------------------
+
+.mypy_cache/
+.pyre/
+.pytype/
+
+# ----------------------
+# Editors / IDE
+# ----------------------
+
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ----------------------
+# OS junk
+# ----------------------
+
+.DS_Store
+Thumbs.db
+
+# ----------------------
+# Logs
+# ----------------------
+
+*.log
+
+# ----------------------
+# Python packaging
+# ----------------------
+
+*.egg
+*.whl
+
+# ----------------------
+# Temporary files
+# ----------------------
+
+*.tmp
+*.temp
+
+# ----------------------
+# Environment variables
+# ----------------------
+
+.env
+.env.*
