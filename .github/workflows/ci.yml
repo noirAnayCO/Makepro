@@ -1,25 +1,42 @@
-name: Makepro CI
+name: CI
 
 on:
   push:
   pull_request:
 
 jobs:
-  build:
+  checks:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: Set PYTHONPATH for src layout
+      - name: Set PYTHONPATH
         run: echo "PYTHONPATH=src" >> $GITHUB_ENV
+
+      - name: Install tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff
+          sudo apt-get update
+          sudo apt-get install -y golang-go
+          go install github.com/google/addlicense@latest
+          echo "$HOME/go/bin" >> $GITHUB_PATH
 
       - name: Syntax check
         run: python -m compileall src
 
       - name: Import test
         run: python -c "import makepro"
+
+      - name: Ruff lint
+        run: ruff check src
+
+      - name: License header check
+        run: addlicense -check -c "Anay" -l mit src
