@@ -1,6 +1,6 @@
 # Makepro
 
-<div align="center">
+<div align="center" style="text-align: justify;">
 
 ```
   __  __       _                         
@@ -10,7 +10,6 @@
  |_|  |_|\__,_|_|\_\___| .__/|_|  \___/ 
                         |_|              
 ```
-
 A lightweight, hackable terminal IDE — built from scratch, raw terminal first.
 
 [![CI](https://github.com/noirAnayCO/makepro/actions/workflows/ci.yml/badge.svg)](https://github.com/noirAnayCO/makepro/actions/workflows/ci.yml)
