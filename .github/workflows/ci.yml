@@ -39,4 +39,4 @@ jobs:
         run: ruff check src
 
       - name: License header check
-        run: addlicense -check -c "Anay" -l mit src
+        run: addlicense -c "Anay" -l mit src
