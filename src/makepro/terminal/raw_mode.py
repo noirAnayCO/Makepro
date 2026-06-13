@@ -244,13 +244,13 @@ def read_event(
 
     fd = fd if fd is not None else sys.stdin.fileno()
 
-    ch = _read_char(fd)
+    ch = _read_char(fd) # type: ignore
 
     if ch == "\x1b":
         seq = ""
 
-        while _byte_ready(fd, escape_timeout):
-            seq += _read_char(fd)
+        while _byte_ready(fd, escape_timeout): # pyright: ignore[reportArgumentType]
+            seq += _read_char(fd) # pyright: ignore[reportArgumentType]
 
         return KeyEvent(
             key=_ESCAPE_SEQUENCES.get(seq, Key.ESC)
